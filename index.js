@@ -5,6 +5,11 @@ const port = process.env.PORT || 3000;
 const https = require('https');
 const fs = require('fs');
 
+const OPTIONS_HTTPS = {
+    key: fs.readFileSync('./cert/key.pem'),
+    cert: fs.readFileSync('./cert/cert.pem')
+
+};
 const express = require('express');
 const logger = require('morgan');
 //Importo la base de datos
@@ -17,10 +22,35 @@ const app = express();
 var db = mongojs("SD");//Conectamos con la base de datos
 var id = mongojs.ObjectId;//Funcion para convertir un id textual en un objeto
 
+
+var allowCrossTokenHeader = (req, res, next) => {
+    res.header("Access-Control-Allow-Headers", "GET, POST, PUT, DELETE, OPTIONS");
+    return next();
+}
+
+var allowCrossTokenOrigin = (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    return next();
+};
+//Para autorizar las req
+var auth = (req, res, next) => {
+    if(req.headers.token === "password1234"){
+        return next();
+    }else{
+        return next(new Error("No autorizado"));
+    }
+};
+
+
 //Middleware
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+//cors middlewares
+app.use(cors());
+app.use(allowCrossTokenHeader);
+app.use(allowCrossTokenOrigin);
 
 //helmet middleware
 app.use(helmet());
@@ -83,8 +113,8 @@ app.delete('/api/:user/:id', (req, res, next) => {
     });
 });
 https.createServer(OPTIONS_HTTPS, app).listen(port, () => {
-    console.log(`sEC WS API REST ejecutandose en https://localhost:${port}/api/:coleccion/:id`)
+    console.log(`API-AUTH-REG ejecutandose en https://localhost:${port}/api/:coleccion/:id`)
 });
 /*app.listen(port, () => {
     console.log('Servicio Web RESTFul de Registro y autenticación');
-})*/
+});*/
