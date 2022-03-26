@@ -11,7 +11,7 @@ const logger = require('morgan');
 const mongojs = require('mongojs');
 
 //Declaro helmet
-var halmet = require('halmet');
+var helmet = require('helmet');
 const app = express();
 
 var db = mongojs("SD");//Conectamos con la base de datos
@@ -82,7 +82,9 @@ app.delete('/api/:user/:id', (req, res, next) => {
         res.json(resultado);
     });
 });
-
-app.listen(port, () => {
+https.createServer(OPTIONS_HTTPS, app).listen(port, () => {
+    console.log(`sEC WS API REST ejecutandose en https://localhost:${port}/api/:coleccion/:id`)
+});
+/*app.listen(port, () => {
     console.log('Servicio Web RESTFul de Registro y autenticación');
-})
+})*/

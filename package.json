@@ -1,11 +1,38 @@
 {
   "name": "api-auth-reg",
-  "version": "1.0.0",
-  "description": "",
+  "version": "2.0.0",
+  "description": "Proyecto de API RESTful con Node.js y Express para SD",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivbaldo/sd.git"
+  },
+  "keywords": [
+    "CRUD",
+    "REST",
+    "node",
+    "express",
+    "mongo"
+  ],
+  "author": "Iván Baldó Rodríguez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivbaldo/sd/issues"
+  },
+  "homepage": "https://github.com/ivbaldo/sd#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "helmet": "^5.0.2",
+    "mongodb": "^4.4.0",
+    "mongojs": "^3.1.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
