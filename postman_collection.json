@@ -1,0 +1,297 @@
+{
+	"info": {
+		"_postman_id": "c6b4c2fd-0cde-4aed-8008-2c396b2ea919",
+		"name": "P5 SD",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:3000/api/user",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user/id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:3000/api/user/624725d0ce32ae4551f1dabe",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"624725d0ce32ae4551f1dabe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"ivan4\",\n    \"email\": \"ivan4@gmail.com\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:3000/api/user",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user/id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4ZDZiMmFjNTgxMTFkNjZjMTY3NTciLCJpYXQiOjE2NDg5NDA3MjIsImV4cCI6MTY0OTU0NTUyMn0.DMV0l2WDLA_9rgvjskS_0jtkAPk_IaUzAbFSQW5xnLM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"pass\": \"ivan4Pass\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:3000/api/user/6248d6b2ac58111d66c16757",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"6248d6b2ac58111d66c16757"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:3000/api/user/624215619fab0d26cf61cce7",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"624215619fab0d26cf61cce7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/auth",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:3000/api/auth",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth"
+					],
+					"query": [
+						{
+							"key": null,
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth/me",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:3000/api/auth/me",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/auth",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"ivan3@gmail.com\",\n    \"pass\": \"ivan3Pass\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:3000/api/auth",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/reg",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"ivan3\",\n    \"email\" : \"ivan3@gmail.com\",\n    \"pass\" : \"ivan3Pass\"\n}"
+				},
+				"url": {
+					"raw": "https://localhost:3000/api/reg",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"reg"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
