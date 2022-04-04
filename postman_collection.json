@@ -8,12 +8,23 @@
 		{
 			"name": "user",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [
 					{
 						"key": "authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
-						"type": "text"
+						"value": "Bearer ",
+						"type": "text",
+						"disabled": true
 					},
 					{
 						"key": "Content-Type",
@@ -39,6 +50,16 @@
 		{
 			"name": "user/id",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [
 					{
@@ -66,6 +87,16 @@
 		{
 			"name": "user",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [
 					{
@@ -137,12 +168,23 @@
 		{
 			"name": "user",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [
 					{
-						"key": "authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
-						"type": "text"
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
 					}
 				],
 				"url": {
@@ -164,11 +206,21 @@
 		{
 			"name": "api/auth",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [
 					{
-						"key": "authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+						"key": "",
+						"value": "",
 						"type": "text"
 					}
 				],
@@ -197,11 +249,21 @@
 		{
 			"name": "auth/me",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [
 					{
-						"key": "authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MjQ4Y2QzMDhkYmExZTE4NDg5NjY4OGIiLCJpYXQiOjE2NDg5MzgyODgsImV4cCI6MTY0OTU0MzA4OH0.1_PnzPp9YC6Ugb6TWM42zOyJx7qaHcPyga-i9JTtHRM",
+						"key": "",
+						"value": "",
 						"type": "text"
 					}
 				],
@@ -258,7 +320,7 @@
 			"response": []
 		},
 		{
-			"name": "api/reg",
+			"name": "api/auth/reg",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -279,7 +341,7 @@
 					"raw": "{\n    \"name\": \"ivan3\",\n    \"email\" : \"ivan3@gmail.com\",\n    \"pass\" : \"ivan3Pass\"\n}"
 				},
 				"url": {
-					"raw": "https://localhost:3000/api/reg",
+					"raw": "https://localhost:3000/api/auth/reg",
 					"protocol": "https",
 					"host": [
 						"localhost"
@@ -287,6 +349,7 @@
 					"port": "3000",
 					"path": [
 						"api",
+						"auth",
 						"reg"
 					]
 				}
