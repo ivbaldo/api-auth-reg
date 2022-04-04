@@ -45,14 +45,19 @@ var allowCrossTokenOrigin = (req, res, next) => {
 var auth = (req, res, next) => {
     const jwt = req.headers.authorization.split(' ')[1];
     TOKEN_SERVICE.decodificaToken(jwt)
-    .then(tokenUsuario => {
-        db.user.findOne({_id: id(tokenUsuario)}, (err,elemento) =>{
-            if(elemento){
-                return next();
-            }else{
-                return next(new Error("No autorizado"));
-            }
-            
+    .then(userId => {
+        req.user = {
+            id: userId,
+            token: jwt
+        }
+        return next();
+
+    })
+    .catch( err => {
+        res.status(400).json({
+            result: "KO",
+            error: 'Token error',
+            description: 'Error al decodificar el token'
         });
     });
     
@@ -104,29 +109,6 @@ app.get('/api/user/:id', auth, (req, res, next) => {
     
 });
 
-app.get('/api/auth',auth, (req, res, next) => {
-    console.log("La coleccion auth: " + req.collection);
-    
-    db.user.find({},{_id:1, name:1 , pass:1},(err,coleccion) => {
-    if(err) return next(err);        
-    res.json(coleccion);
-    });
-
-});
-
-app.get('/api/auth/me', auth, (req, res, next) => {
-    console.log('entro en auth/me ');
-    const jwt = req.headers.authorization.split(' ')[1];
-    TOKEN_SERVICE.decodificaToken(jwt)
-    .then(tokenUsuario => {
-        console.log("El id obtenido al descifrar: " + tokenUsuario);
-        db.user.findOne({_id: id(tokenUsuario)}, (err,elemento) =>{
-            if(err) return next(err);
-            res.json(elemento);
-        });
-    });
-});
-
 app.post('/api/user', auth, (req, res, next) => {
     const elemento = req.body;
 
@@ -150,112 +132,14 @@ app.post('/api/user', auth, (req, res, next) => {
                 elemento.lastLogin = moment().unix();
                 db.user.save(elemento, (err, userGuardados) => {
                     if(err) return next(err);
-                    const tokenUsuario = TOKEN_SERVICE.creaToken(userGuardados);
                     res.json({
                         result: "OK",
-                        token: tokenUsuario,
                         user: userGuardados
                     });
                 });    
             } 
         });
     }
-});
-app.post('/api/reg',(req, res, next) => {
-    const elemento = req.body;
-    console.log("Lo que es el req.body" + elemento);
-    console.log("El elemento.name: " + elemento.name);
-    console.log("Longitud de la pass" + elemento.pass.length);
-    
-    if(!elemento.pass || !elemento.email){
-        res.status(400).json({
-            error: 'Bad data',
-            description: 'Se precisa al menos un campo <pass> y <email>'
-        });
-    }else {
-        if(!validarPassword(elemento.pass)){
-            res.status(400).json({
-                error: 'Bad data',
-                description: 'Contraseña necesita un número y un caracter especial y 6-16 caracteres'
-            }); 
-        }else if(!validarEmail(elemento.email)){
-            res.status(400).json({
-                error: 'Bad data',
-                description: 'Email minimo 6 letras y máximo 16'
-            });
-        }else{
-            db.user.findOne({email: elemento.email}, (err, user) => {
-                if(err) return next(err);
-                if(user){
-                    res.status(400).json({
-                        result: "KO",
-                        error: 'Bad data',
-                        description: 'El usuario ya existe'
-                    });
-                }else{
-    
-                    PASS_SERVICE.encriptaPassword(elemento.pass)
-                    .then(hash => {
-                    elemento.pass = hash;
-                    elemento.singUpDate = moment().unix();
-                    elemento.lastLogin = moment().unix();
-                    
-                        db.user.save(elemento, (err, userGuardados) => {
-                            if(err) return next(err);
-                
-                            const tokenUsuario = TOKEN_SERVICE.creaToken(userGuardados);
-                            res.json({
-                                result: "OK",
-                                token: tokenUsuario,
-                                user: userGuardados
-                            });
-                        });  
-                    });
-                }
-            }); 
-        }
-              
-    }
-});
-
-app.post('/api/auth', (req, res, next) => {
-    const elemento = req.body;
-    if(!elemento.pass || !elemento.email){
-        res.status(400).json({
-            error: 'Bad data',
-            description: 'Se precisa al menos un campo <pass> y <email>'
-        });
-    }else {
-        db.user.findOne({email: elemento.email}, (err, user) => {
-        if(err) return next(err);
-        if(user){
-                PASS_SERVICE.comparaPassword(elemento.pass, user.pass).then(isOk =>{ //Comparamos las contraseñas
-                    const tokenUsuario = TOKEN_SERVICE.creaToken(user);
-                    if(isOk){
-                        res.json({
-                            result: "OK",
-                            token: tokenUsuario,
-                            user: user
-                        });
-                    }else{
-                        res.status(400).json({
-                            result: "KO",
-                            error: 'Bad data',
-                            description: 'Contraseña incorrecta'
-                        });
-                    }
-                    
-                });
-        }else{
-            res.status(400).json({
-                result: "KO",
-                error: 'Bad data',
-                description: 'El usuario no existe en el servidor'
-            });
-            }
-        });       
-    }
-
 });
 
 app.put('/api/user/:id', auth, (req, res, next) => {
@@ -297,6 +181,124 @@ app.delete('/api/user/:id', auth, (req, res, next) => {
         res.json(resultado);
     });
 });
+
+app.get('/api/auth',auth, (req, res, next) => {
+    console.log("La coleccion auth: " + req.collection);
+    
+    db.user.find({},{_id:1, name:1 , pass:1},(err,coleccion) => {
+    if(err) return next(err);        
+    res.json(coleccion);
+    });
+
+});
+
+app.get('/api/auth/me', auth, (req, res, next) => {
+    console.log('entro en auth/me ');
+    
+        db.user.findOne({_id: id(req.user.id)}, (err,elemento) =>{
+            if(err) return next(err);
+            res.json(elemento);
+        });
+   
+});
+
+app.post('/api/auth', (req, res, next) => {
+    const elemento = req.body;
+    if(!elemento.pass || !elemento.email){
+        res.status(400).json({
+            error: 'Bad data',
+            description: 'Se precisa al menos un campo <pass> y <email>'
+        });
+    }else {
+        db.user.findOne({email: elemento.email}, (err, user) => {
+        if(err) return next(err);
+        if(user){
+                PASS_SERVICE.comparaPassword(elemento.pass, user.pass)
+                .then(isOk =>{ //Comparamos las contraseñas
+                    if(isOk){
+                        const tokenUsuario = TOKEN_SERVICE.creaToken(user);
+                        res.json({
+                            result: "OK",
+                            token: tokenUsuario,
+                            user: user
+                        });
+                    }else{
+                        res.status(400).json({
+                            result: "KO",
+                            error: 'Bad data',
+                            description: 'Contraseña incorrecta'
+                        });
+                    }
+                    
+                });
+        }else{
+            res.status(400).json({
+                result: "KO",
+                error: 'Bad data',
+                description: 'El usuario no existe en el servidor'
+            });
+            }
+        });       
+    }
+
+});
+
+
+app.post('/api/auth/reg',(req, res, next) => {
+    const elemento = req.body;
+    console.log("Lo que es el req.body" + elemento);
+    console.log("El elemento.name: " + elemento.name);
+    console.log("Longitud de la pass" + elemento.pass.length);
+    
+    if(!elemento.pass || !elemento.email){
+        res.status(400).json({
+            error: 'Bad data',
+            description: 'Se precisa al menos un campo <pass> y <email>'
+        });
+    }else if(!validarPassword(elemento.pass)) {
+        res.status(400).json({
+            error: 'Bad data',
+            description: 'Contraseña necesita un número y un caracter especial y 6-16 caracteres'
+        }); 
+    } else if(!validarEmail(elemento.email)){
+        res.status(400).json({
+            error: 'Bad data',
+            description: 'Email minimo 6 letras y máximo 16'
+        });
+    } else {
+        db.user.findOne({email: elemento.email}, (err, user) => {
+            if(err) return next(err);
+            if(user){
+                res.status(400).json({
+                    result: "KO",
+                    error: 'Bad data',
+                    description: 'El usuario ya existe'
+                });
+            }else{
+                PASS_SERVICE.encriptaPassword(elemento.pass)
+                .then(hash => {
+                    elemento.pass = hash;
+                    elemento.singUpDate = moment().unix();
+                    elemento.lastLogin = moment().unix();
+                    
+                    db.user.save(elemento, (err, userGuardados) => {
+                        if(err) return next(err);
+            
+                        const tokenUsuario = TOKEN_SERVICE.creaToken(userGuardados);
+                        res.json({
+                            result: "OK",
+                            token: tokenUsuario,
+                            user: userGuardados
+                        });
+                    });  
+                });
+            }
+        }); 
+    }
+});
+
+
+
 https.createServer(OPTIONS_HTTPS, app).listen(port, () => {
     console.log(`API-AUTH-REG ejecutandose en https://localhost:${port}/api/:coleccion/:id`)
 });
