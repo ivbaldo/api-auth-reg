@@ -60,7 +60,7 @@ var auth = (req, res, next) => {
             description: 'Error al decodificar el token'
         });
     });
-    
+
 };
 
 
@@ -82,7 +82,7 @@ app.use(helmet());
 app.param("coleccion", (req, res, next, coleccion) => {
     console.log('param /api/:colecction');
     console.log('coleccion: ',coleccion);
-    
+
     req.collection = db.collection(coleccion);
     return next();
 });
@@ -91,22 +91,22 @@ app.param("coleccion", (req, res, next, coleccion) => {
 
 app.get('/api/user', auth, (req, res, next) => {
     console.log("La coleccion solicitada: " + req.collection);
-    
+
     db.user.find((err,coleccion) => {
-        if(err) return next(err);        
+        if(err) return next(err);
         res.json(coleccion);
-    });    
-    
+    });
+
 });
 
 app.get('/api/user/:id', auth, (req, res, next) => {
     console.log('entro en coleccion/id '+req.params.id);
-    
+
     db.user.findOne({_id: id(req.params.id)}, (err,elemento) =>{
         if(err) return next(err);
         res.json(elemento);
     });
-    
+
 });
 
 app.post('/api/user', auth, (req, res, next) => {
@@ -136,8 +136,8 @@ app.post('/api/user', auth, (req, res, next) => {
                         result: "OK",
                         user: userGuardados
                     });
-                });    
-            } 
+                });
+            }
         });
     }
 });
@@ -170,7 +170,7 @@ app.put('/api/user/:id', auth, (req, res, next) => {
             res.json(userModif);
         });
     }
-    
+
 });
 
 app.delete('/api/user/:id', auth, (req, res, next) => {
@@ -184,9 +184,9 @@ app.delete('/api/user/:id', auth, (req, res, next) => {
 
 app.get('/api/auth',auth, (req, res, next) => {
     console.log("La coleccion auth: " + req.collection);
-    
+
     db.user.find({},{_id:1, name:1 , pass:1},(err,coleccion) => {
-    if(err) return next(err);        
+    if(err) return next(err);
     res.json(coleccion);
     });
 
@@ -194,12 +194,12 @@ app.get('/api/auth',auth, (req, res, next) => {
 
 app.get('/api/auth/me', auth, (req, res, next) => {
     console.log('entro en auth/me ');
-    
+
         db.user.findOne({_id: id(req.user.id)}, (err,elemento) =>{
             if(err) return next(err);
             res.json(elemento);
         });
-   
+
 });
 
 app.post('/api/auth', (req, res, next) => {
@@ -216,12 +216,19 @@ app.post('/api/auth', (req, res, next) => {
                 PASS_SERVICE.comparaPassword(elemento.pass, user.pass)
                 .then(isOk =>{ //Comparamos las contraseñas
                     if(isOk){
-                        const tokenUsuario = TOKEN_SERVICE.creaToken(user);
-                        res.json({
-                            result: "OK",
-                            token: tokenUsuario,
-                            user: user
+                        user.lastLogin = moment().unix();
+                        console.log(user._id);
+                        db.user.update({_id: id(user._id)},
+                        {$set:{lastLogin: user.lastLogin}},{safe:true, multi:false}, (err, userModif) => {
+                            if(err) return next(err);
+                            const tokenUsuario = TOKEN_SERVICE.creaToken(user);
+                            res.json({
+                                result: "OK",
+                                token: tokenUsuario,
+                                user: user
+                            });
                         });
+
                     }else{
                         res.status(400).json({
                             result: "KO",
@@ -229,8 +236,9 @@ app.post('/api/auth', (req, res, next) => {
                             description: 'Contraseña incorrecta'
                         });
                     }
-                    
+
                 });
+
         }else{
             res.status(400).json({
                 result: "KO",
@@ -238,7 +246,7 @@ app.post('/api/auth', (req, res, next) => {
                 description: 'El usuario no existe en el servidor'
             });
             }
-        });       
+        });
     }
 
 });
@@ -249,7 +257,7 @@ app.post('/api/auth/reg',(req, res, next) => {
     console.log("Lo que es el req.body" + elemento);
     console.log("El elemento.name: " + elemento.name);
     console.log("Longitud de la pass" + elemento.pass.length);
-    
+
     if(!elemento.pass || !elemento.email){
         res.status(400).json({
             error: 'Bad data',
@@ -259,7 +267,7 @@ app.post('/api/auth/reg',(req, res, next) => {
         res.status(400).json({
             error: 'Bad data',
             description: 'Contraseña necesita un número y un caracter especial y 6-16 caracteres'
-        }); 
+        });
     } else if(!validarEmail(elemento.email)){
         res.status(400).json({
             error: 'Bad data',
@@ -280,20 +288,20 @@ app.post('/api/auth/reg',(req, res, next) => {
                     elemento.pass = hash;
                     elemento.singUpDate = moment().unix();
                     elemento.lastLogin = moment().unix();
-                    
+
                     db.user.save(elemento, (err, userGuardados) => {
                         if(err) return next(err);
-            
+
                         const tokenUsuario = TOKEN_SERVICE.creaToken(userGuardados);
                         res.json({
                             result: "OK",
                             token: tokenUsuario,
                             user: userGuardados
                         });
-                    });  
+                    });
                 });
             }
-        }); 
+        });
     }
 });
 
@@ -308,7 +316,7 @@ https.createServer(OPTIONS_HTTPS, app).listen(port, () => {
 
 function validarPassword(pass){
     if(!REG_EXP_PASS.test(pass)){
-        
+
         return false;
     }
     return true;
