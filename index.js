@@ -1,6 +1,6 @@
 'use strict'
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 const https = require('https');
 const fs = require('fs');
@@ -12,8 +12,8 @@ const OPTIONS_HTTPS = {
     cert: fs.readFileSync('./cert/cert.pem')
 
 };
-const REG_EXP_PASS = /[a-zA-Z0-9!@#$%^&*]{6,16}$/; // 6 y 16 caracteres
-const REG_EXP_EMAIL =  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+// const REG_EXP_PASS = /[a-zA-Z0-9!@#$%^&*]{6,16}$/; // 6 y 16 caracteres
+// const REG_EXP_EMAIL =  /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 const PASS_SERVICE = require('/home/sd/api-auth-reg/auth-test/services/pass.service');
 const TOKEN_SERVICE = require('/home/sd/api-auth-reg/auth-test/services/token_service');
 
@@ -263,17 +263,18 @@ app.post('/api/auth/reg',(req, res, next) => {
             error: 'Bad data',
             description: 'Se precisa al menos un campo <pass> y <email>'
         });
-    }else if(!validarPassword(elemento.pass)) {
-        res.status(400).json({
-            error: 'Bad data',
-            description: 'Contraseña necesita un número y un caracter especial y 6-16 caracteres'
-        });
-    } else if(!validarEmail(elemento.email)){
-        res.status(400).json({
-            error: 'Bad data',
-            description: 'Email minimo 6 letras y máximo 16'
-        });
-    } else {
+    }
+    // else if(!validarPassword(elemento.pass)) {
+    //     res.status(400).json({
+    //         error: 'Bad data',
+    //         description: 'Contraseña necesita un número y un caracter especial y 6-16 caracteres'
+    //     });
+    // } else if(!validarEmail(elemento.email)){
+    //     res.status(400).json({
+    //         error: 'Bad data',
+    //         description: 'Email minimo 6 letras y máximo 16'
+    //     });
+     else {
         db.user.findOne({email: elemento.email}, (err, user) => {
             if(err) return next(err);
             if(user){
@@ -314,17 +315,17 @@ https.createServer(OPTIONS_HTTPS, app).listen(port, () => {
     console.log('Servicio Web RESTFul de Registro y autenticación');
 });*/
 
-function validarPassword(pass){
-    if(!REG_EXP_PASS.test(pass)){
+// function validarPassword(pass){
+//     if(!REG_EXP_PASS.test(pass)){
 
-        return false;
-    }
-    return true;
-}
+//         return false;
+//     }
+//     return true;
+// }
 
-function validarEmail(email){
-    if(!email.match(REG_EXP_EMAIL)){
-        return false;
-    }
-    return true;
-}
+// function validarEmail(email){
+//     if(!email.match(REG_EXP_EMAIL)){
+//         return false;
+//     }
+//     return true;
+// }
